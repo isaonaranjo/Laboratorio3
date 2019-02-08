@@ -1,4 +1,3 @@
-package com.company;
 /*
  * Hoja de trabajo No.3
  * Algoritmos y Estructuras de Datos

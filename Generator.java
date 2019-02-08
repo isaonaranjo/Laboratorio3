@@ -25,7 +25,7 @@ class Generator{
         String output = "";
         for(int i=0;i<2999;i++){
             output = output + " ";
-            int n = random.nextInt(1000);
+            int n = random.nextInt(500);
             output = output + Integer.toString(n);
         }
         Writer writer = null;
@@ -34,9 +34,8 @@ class Generator{
                     new FileOutputStream(fileName), "utf-8"));
             writer.write(output);
         } catch (IOException ex) {
-            // Report
         } finally {
-            try {writer.close();} catch (Exception ex) {/*ignore*/}
+            try {writer.close();} catch (Exception ex) {}
         }
 
     }

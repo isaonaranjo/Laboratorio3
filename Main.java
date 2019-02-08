@@ -15,11 +15,12 @@ public class Main {
     //Crear los distintos Sorts para ser utilizados posteriormente
      GnomeSort gs = new GnomeSort();
      MergeSort ms = new MergeSort();
-     //QuickSort qs = new QuickSort();
-     //RadixSort rs = new RadixSort();
+     QuickSort qs = new QuickSort();
+     RadixSort rs = new RadixSort();
+     CombSort cs = new CombSort();
 
      System.out.println("===================================================================================================\n" +
-                "Escriba el nombre del archivo con la serie de numeros a ordenar, seguido de la terminacion '.txt'...\n" +
+                "Escriba el nombre del archivo con la serie de numeros a ordenar, seguido de la terminacion '.txt'..\n" +
                 "===================================================================================================\n");
      //Se pide el nombre del archivo que contiene los numeros
      Scanner sc = new Scanner(System.in);
@@ -42,62 +43,50 @@ public class Main {
             while((msg=br.readLine())!=null){
                 System.out.println("Lectura exitosa...\n");
                 String[] dataArray = msg.split(" ");//Array que contiene los numeros del archivo .txt
-                int[] arrayToSort = new int[dataArray.length];
-                for (int i=0; i<dataArray.length; i++) {
-                    arrayToSort[i] = Integer.valueOf(dataArray[i]);
-                }
+                int[] arrayToSort = new int[dataArray.length];//Array para ordenar.
 
+                //Asignacion de valores a array a ser ordenado
+                for (int index=1; index<dataArray.length; index++) {
+                    arrayToSort[index] = Integer.valueOf(dataArray[index]);
+                }
+                //Menu
                 System.out.println("Escoja el sort que desea hacer: \n" +
                         "1.GnomeSort\n" +
                         "2.MergeSort\n" +
                         "3.QuickSort\n" +
                         "4.RadixSort\n" +
-                        "5.XXXXXSort\n");
+                        "5.CombSort\n");
                 Scanner sc1 = new Scanner(System.in);
                 int numOption = sc1.nextInt();
-                if (numOption < 6 && numOption > 0){
-                    if(numOption == 1){
-                        gs.gnomeSort(arrayToSort);
-                        Writer writer = null;
-
-                        try {
-                            writer = new BufferedWriter(new OutputStreamWriter(
-                                    new FileOutputStream(selectedFile), "utf-8"));
-                            for (int i=0; i<arrayToSort.length;i++){
-                                writer.write(arrayToSort[i]+" ");
-                            }
-                        } catch (IOException ex) {
-                            // Report
-                        } finally {
-                            try {writer.close();} catch (Exception ex) {/*ignore*/}
-                        }
-                    }else if (numOption == 2){
-                        ms.sort(arrayToSort,0,arrayToSort.length-1);
-                        Writer writer = null;
-
-                        try {
-                            writer = new BufferedWriter(new OutputStreamWriter(
-                                    new FileOutputStream(selectedFile), "utf-8"));
-                            for (int i=0; i<arrayToSort.length;i++){
-                                writer.write(arrayToSort[i]+" ");
-                            }
-                        } catch (IOException ex) {
-                            // Report
-                        } finally {
-                            try {writer.close();} catch (Exception ex) {/*ignore*/}
-                        }
-                    }else if (numOption == 3){
-
-                    }else if (numOption == 4){
-
-                    }else if (numOption == 5){
-
-                    }
-                }else{
-                    System.out.println("Escribe un numero valido...");
+                //En caso de que seleccione las distintas opciones
+                switch (numOption){
+                    case 1: gs.gnomeSort(arrayToSort);//GnomeSort
+                        break;
+                    case 2: ms.sort(arrayToSort,0,arrayToSort.length-1);//MergeSort
+                        break;
+                    case 3: qs.quickSort(arrayToSort,0,arrayToSort.length-1);//QuickSort
+                        break;
+                    case 4: rs.radixsort(arrayToSort,arrayToSort.length);//RadixSort
+                        break;
+                    case 5: cs.sort(arrayToSort);//CombSort
+                        break;
+                    default:
+                        System.out.println("Numero invalido, agrega uno entre 1 y 5");
                 }
+                //Escribe el archivo con el array ordenado
+                Writer writer = null;
+                try {
+                    writer = new BufferedWriter(new OutputStreamWriter(
+                            new FileOutputStream(selectedFile), "utf-8"));
+                    for (int i=0; i<arrayToSort.length;i++){
+                        writer.write(arrayToSort[i]+" ");
+                    }
+                } catch (IOException ex) {
+                } finally {
+                    try {writer.close();} catch (Exception ex) {}
+                };
+                break;
             }
-
         }
         catch(Exception e){
             e.printStackTrace();
@@ -113,8 +102,5 @@ public class Main {
                 e2.printStackTrace();
             }
         }
-
-
-
      }
 }
